@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FilmVoyager</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .title-font {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6a768c;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 min-h-screen flex flex-col items-center">
+
+    <!-- Header section with title and search bar -->
+    <header class="w-full max-w-5xl py-8 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-green-500 tracking-tight title-font flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10 text-green-500">
+                    <path fill-rule="evenodd" d="M3.75 3.75c.414 0 .75.336.75.75v.75c0 .414.336.75.75.75h.75a.75.75 0 01.75.75v.75c0 .414.336.75.75.75h.75a.75.75 0 01.75.75v.75c0 .414.336.75.75.75h.75a.75.75 0 01.75.75v.75c0 .414.336.75.75.75h.75a.75.75 0 01.75.75v.75c0 .414.336.75.75.75h.75a.75.75 0 01.75.75v.75c0 .414.336.75.75.75h.75a.75.75 0 01.75.75v.75c0 .414.336.75.75.75h.75c.414 0 .75.336.75.75v.75a.75.75 0 01-1.5 0v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75c0-.414-.336-.75-.75-.75zM17.25 20.25a.75.75 0 01-.75.75h-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75a.75.75 0 01-.75-.75v-.75c0-.414.336-.75.75-.75h.75c.414 0 .75.336.75.75v.75c0 .414.336.75.75.75h.75c.414 0 .75.336.75.75v.75c0 .414.336.75.75.75h.75c.414 0 .75.336.75.75v.75c0 .414.336.75.75.75h.75c.414 0 .75.336.75.75v.75c0 .414.336.75.75.75h.75c.414 0 .75.336.75.75v.75c0 .414.336.75.75.75h.75c.414 0 .75.336.75.75v.75c0 .414.336.75.75.75h.75c.414 0 .75.336.75.75v.75a.75.75 0 01-1.5 0v-.75c0-.414-.336-.75-.75-.75h-.75c-.414 0-.75-.336-.75-.75z" clip-rule="evenodd" />
+                </svg>
+                <span>FilmVoyager</span>
+            </h1>
+            <div class="w-full sm:w-80 relative">
+                <input type="text" id="searchInput" placeholder="Search movies..."
+                       class="w-full py-3 px-6 rounded-full bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300 shadow-lg">
+                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8a4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content area for movie cards -->
+    <main class="w-full max-w-6xl p-4 sm:p-6 lg:p-8 flex-1">
+        <!-- Movie grid -->
+        <div id="movieGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+            <!-- Movie cards will be inserted here by JavaScript -->
+        </div>
+
+        <!-- Loading spinner container -->
+        <div id="loadingSpinner" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden">
+            <svg class="animate-spin h-12 w-12 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </div>
+
+        <!-- Message box for recommendations and fun facts -->
+        <div id="messageBox" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50">
+            <div class="bg-gray-800 p-8 rounded-xl shadow-2xl max-w-md w-full m-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-green-400" id="messageTitle"></h3>
+                    <button onclick="hideMessageBox()" class="text-gray-400 hover:text-gray-200 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <p class="text-gray-300 text-lg mb-6" id="messageText"></p>
+                <div class="flex justify-end">
+                    <button onclick="hideMessageBox()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // API Configuration
+        const API_KEY = ""; // Canvas will automatically provide the API key
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+        const movies = [
+            {
+                title: 'The Matrix',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=The+Matrix',
+                summary: 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.'
+            },
+            {
+                title: 'Inception',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Inception',
+                summary: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.'
+            },
+            {
+                title: 'Interstellar',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Interstellar',
+                summary: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.'
+            },
+            {
+                title: 'Blade Runner 2049',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Blade+Runner+2049',
+                summary: 'A young blade runner discovers a long-buried secret that has the potential to plunge what\'s left of society into chaos.'
+            },
+            {
+                title: 'Pulp Fiction',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Pulp+Fiction',
+                summary: 'The lives of two mob hitmen, a boxer, a gangster\'s wife, and a pair of diner bandits intertwine in four tales of violence and redemption.'
+            },
+            {
+                title: 'Forrest Gump',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Forrest+Gump',
+                summary: 'The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75.'
+            },
+            {
+                title: 'The Shawshank Redemption',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=The+Shawshank+Redemption',
+                summary: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.'
+            },
+            {
+                title: 'The Dark Knight',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=The+Dark+Knight',
+                summary: 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.'
+            },
+            {
+                title: 'Avatar',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Avatar',
+                summary: 'A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following orders and protecting the world he feels is his home.'
+            },
+            {
+                title: 'Joker',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Joker',
+                summary: 'A mentally troubled comedian embarks on a downward spiral that leads to chaos and a life of crime.'
+            },
+            {
+                title: 'Dune',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Dune',
+                summary: 'A noble family becomes embroiled in a war for control over the galaxy\'s most valuable asset while its heir becomes tormented by prophetic visions.'
+            },
+            {
+                title: 'The Martian',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=The+Martian',
+                summary: 'An astronaut is presumed dead after a fierce storm and is left behind by his crew during a mission to Mars.'
+            },
+            {
+                title: '3 Idiots',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=3+Idiots',
+                summary: 'Two friends embark on a quest for a third friend who mysteriously vanished a decade ago, navigating through college memories and an eccentric director\'s past.'
+            },
+            {
+                title: 'Dangal',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Dangal',
+                summary: 'A former wrestler trains his two daughters to become world-class wrestlers, defying social conventions and breaking barriers.'
+            },
+            {
+                title: 'Baahubali: The Beginning',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Baahubali',
+                summary: 'In ancient India, an adventurous young man helps a woman in distress, leading him to uncover his royal lineage and a legacy of conflict.'
+            },
+            {
+                title: 'Lagaan',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Lagaan',
+                summary: 'The film is set in the Victorian era of India\'s colonial British Raj. The story revolves around a small village whose inhabitants, oppressed by high taxes, are challenged to a game of cricket by an arrogant British officer.'
+            },
+            {
+                title: 'Gully Boy',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=Gully+Boy',
+                summary: 'A young man from the slums of Mumbai uses his passion for rap music to express his views on life and society, as he rises to become a popular rapper.'
+            },
+            {
+                title: 'PK',
+                posterUrl: 'https://placehold.co/400x600/1e293b/a5f3fc?text=PK',
+                summary: 'An alien stranded on Earth questions the religious dogmas and superstitions of various faiths, using his innocent and childlike perspective to expose their flaws.'
+            }
+        ];
+
+        const movieGrid = document.getElementById('movieGrid');
+        const searchInput = document.getElementById('searchInput');
+        const messageBox = document.getElementById('messageBox');
+        const messageTitle = document.getElementById('messageTitle');
+        const messageText = document.getElementById('messageText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        // Function to create and render a single movie card
+        function createMovieCard(movie) {
+            const card = document.createElement('div');
+            card.className = 'bg-gray-800 rounded-xl overflow-hidden shadow-2xl transform transition-transform duration-300 hover:scale-105 hover:shadow-green-500/20';
+
+            card.innerHTML = `
+                <img src="${movie.posterUrl}" alt="${movie.title} poster" class="w-full h-56 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x600/1e293b/a5f3fc?text=Image+Unavailable';">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-white">${movie.title}</h3>
+                    <p class="text-sm text-gray-400 line-clamp-3">${movie.summary}</p>
+                    <div class="flex space-x-2 mt-4">
+                        <button class="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-xs"
+                                onclick="findSimilar('${movie.title}')">
+                            ✨ Gemini Recommendations
+                        </button>
+                        <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition-colors text-xs"
+                                onclick="getFunFact('${movie.title}')">
+                            ✨ Fun Fact
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        // Function to display movies
+        function displayMovies(movieList) {
+            movieGrid.innerHTML = ''; // Clear previous movies
+            movieList.forEach(movie => {
+                movieGrid.appendChild(createMovieCard(movie));
+            });
+        }
+
+        // Initial display of all movies
+        displayMovies(movies);
+
+        // Search functionality
+        searchInput.addEventListener('input', (event) => {
+            const searchTerm = event.target.value.toLowerCase();
+            const filteredMovies = movies.filter(movie => 
+                movie.title.toLowerCase().includes(searchTerm) ||
+                movie.summary.toLowerCase().includes(searchTerm)
+            );
+            displayMovies(filteredMovies);
+        });
+
+        // Function to show a custom message box
+        function showMessageBox(title, text) {
+            messageTitle.textContent = title;
+            messageText.innerHTML = text;
+            messageBox.classList.remove('hidden');
+        }
+
+        // Function to hide the custom message box
+        function hideMessageBox() {
+            messageBox.classList.add('hidden');
+        }
+
+        // Function to show loading spinner
+        function showLoadingSpinner() {
+            loadingSpinner.classList.remove('hidden');
+        }
+
+        // Function to hide loading spinner
+        function hideLoadingSpinner() {
+            loadingSpinner.classList.add('hidden');
+        }
+
+        // Asynchronous function to find similar movies using the Gemini API
+        async function findSimilar(movieTitle) {
+            showLoadingSpinner();
+            const userQuery = `Find 5 movie titles similar to "${movieTitle}". Only respond with a JSON array of strings, for example: ['Movie A', 'Movie B', 'Movie C'].`;
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "ARRAY",
+                        items: { "type": "STRING" }
+                    }
+                }
+            };
+
+            let retryCount = 0;
+            const maxRetries = 3;
+
+            while (retryCount < maxRetries) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API response error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    const jsonString = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (!jsonString) {
+                        throw new Error("Invalid response format from API.");
+                    }
+                    
+                    const recommendedTitles = JSON.parse(jsonString);
+                    const recommendationsText = recommendedTitles.map((rec, index) => `${index + 1}. ${rec}`).join('<br>');
+                    
+                    hideLoadingSpinner();
+                    showMessageBox(
+                        `Gemini Recommendations for "${movieTitle}"`,
+                        recommendationsText
+                    );
+                    return; // Exit the loop on success
+
+                } catch (error) {
+                    console.error('Error finding similar movies:', error);
+                    retryCount++;
+                    if (retryCount < maxRetries) {
+                        await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
+                    } else {
+                        hideLoadingSpinner();
+                        showMessageBox("Error", "Failed to get recommendations. Please try again later.");
+                    }
+                }
+            }
+        }
+
+        // Asynchronous function to get a fun fact using the Gemini API
+        async function getFunFact(movieTitle) {
+            showLoadingSpinner();
+            const userQuery = `Provide a unique, interesting, and short fun fact about the movie "${movieTitle}".`;
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                tools: [{ "google_search": {} }]
+            };
+
+            let retryCount = 0;
+            const maxRetries = 3;
+
+            while (retryCount < maxRetries) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API response error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    const fact = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (!fact) {
+                        throw new Error("Invalid response format from API.");
+                    }
+                    
+                    hideLoadingSpinner();
+                    showMessageBox(
+                        `Fun Fact about "${movieTitle}"`,
+                        fact
+                    );
+                    return; // Exit the loop on success
+
+                } catch (error) {
+                    console.error('Error getting fun fact:', error);
+                    retryCount++;
+                    if (retryCount < maxRetries) {
+                        await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
+                    } else {
+                        hideLoadingSpinner();
+                        showMessageBox("Error", "Failed to get a fun fact. Please try again later.");
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
